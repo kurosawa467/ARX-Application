@@ -25,7 +25,7 @@ public class Application {
     public static void main(String[] args) throws IOException {
 
         // Import data from pre-loaded csv file
-        // The last parameter means that, the csv file contains a header row
+        // The last boolean parameter means that the csv file contains a header row
         DataSource dataSource = DataSource.createCSVSource(WTA_MATCHES_2021_CSV, StandardCharsets.UTF_8, ',', true);
 
         // Add selected columns from the data source
@@ -47,8 +47,10 @@ public class Application {
         data.getDefinition().setAttributeType("winner_ioc", HierarchyHelper.getHierarchyWinnerIoc());
         data.getDefinition().setAttributeType("winner_age", HierarchyHelper.getHierarchyWinnerAge());
 
-        // Create an anonymizer instance and configure k-anonymity privacy model
+        // Create an anonymizer instance
         ARXAnonymizer arxAnonymizer = new ARXAnonymizer();
+
+        // Configure k-anonymity privacy model
         ARXConfiguration arxConfiguration = ARXConfiguration.create();
         arxConfiguration.addPrivacyModel(new KAnonymity(4));
         arxConfiguration.setSuppressionLimit(0.02d);
